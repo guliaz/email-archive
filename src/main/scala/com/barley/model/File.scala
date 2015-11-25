@@ -1,7 +1,8 @@
 package com.barley.model
 
+import java.lang
 import java.util.Date
-import javax.persistence.{Id, Entity}
+import javax.persistence.{Entity, GeneratedValue, Id}
 
 import scala.beans.BeanProperty
 
@@ -12,8 +13,9 @@ import scala.beans.BeanProperty
 class File {
 
   @Id
+  @GeneratedValue
   @BeanProperty
-  var file_id: Long = _
+  var file_id: lang.Long = _
   @BeanProperty
   var file_name: String = _
   @BeanProperty

@@ -1,7 +1,8 @@
 package com.barley.model
 
+import java.lang
 import java.util.Date
-import javax.persistence.{Entity, Id}
+import javax.persistence.{Entity, GeneratedValue, Id}
 
 import scala.beans.BeanProperty
 
@@ -12,10 +13,11 @@ import scala.beans.BeanProperty
 class Recipient {
 
   @Id
+  @GeneratedValue
   @BeanProperty
-  var recipient_id: Long = _
+  var recipient_id: lang.Long = _
   @BeanProperty
-  var message_id: Long = _
+  var message_id: lang.Long = _
   @BeanProperty
   var recipient_email: String = _
   @BeanProperty
