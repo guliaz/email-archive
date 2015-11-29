@@ -3,7 +3,7 @@ package com.barley.controllers
 import java.lang.Iterable
 
 import com.barley.model.Email
-import com.barley.respository.{RecipientRepository, FileRepository, AttachmentRepository, EmailRepository}
+import com.barley.respository.{AttachmentRepository, EmailRepository, FileRepository, RecipientRepository}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.{RequestMapping, RestController}
 

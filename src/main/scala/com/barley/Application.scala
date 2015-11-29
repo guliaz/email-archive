@@ -1,12 +1,9 @@
-package com.barley.spring
+package com.barley
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.context.annotation.{ComponentScan, ImportResource}
 
 @SpringBootApplication
-@ComponentScan(value = Array("com.barley"))
-@ImportResource(value = Array("context.xml"))
 class Application
 
 object Application {
