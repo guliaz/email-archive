@@ -2,6 +2,8 @@ group 'com.barley.spring'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'scala'
+apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'spring-boot'
 
@@ -27,22 +29,21 @@ repositories {
 dependencies {
     compile(
             "org.scala-lang:scala-library:2.11.7",
-            "org.springframework.boot:spring-boot-starter-web",
             'org.springframework.boot:spring-boot-starter-data-jpa',
-            "org.springframework.boot:spring-boot-starter-actuator",
+            'org.springframework.boot:spring-boot-starter-web',
             "com.barley.msg:msgparser:1.12",
             'org.apache.poi:poi:3.13',
             'org.apache.poi:poi-scratchpad:3.13',
             'mysql:mysql-connector-java:5.1.35',
-            //'org.springframework:spring-jdbc',
             'org.apache.tomcat:tomcat-dbcp:8.0.28',
             'com.jcraft:jsch:0.1.53',
-            'org.apache.commons:commons-dbcp2:2.1.1'
+            'org.apache.commons:commons-dbcp2:2.1.1',
+            "javax.servlet:javax.servlet-api:3.1.0",
+            'org.webjars:bootstrap:3.3.6'
     )
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.thymeleaf:thymeleaf-spring4")
     compile("org.springframework.boot:spring-boot-starter-security")
-    compile("org.springframework.security:spring-security-ldap")
-    compile("org.springframework:spring-tx")
-    compile("org.apache.directory.server:apacheds-server-jndi:1.5.5")
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

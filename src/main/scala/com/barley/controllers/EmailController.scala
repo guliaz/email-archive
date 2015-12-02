@@ -1,6 +1,6 @@
 package com.barley.controllers
 
-import java.lang.Iterable
+import java.lang.{Long, Iterable}
 
 import com.barley.model.Email
 import com.barley.respository.{AttachmentRepository, EmailRepository, FileRepository, RecipientRepository}
@@ -23,6 +23,11 @@ class EmailController @Autowired()(
   def list(): Iterable[Email] = {
     val emails = emailRepository.findAll()
     emails
+  }
+
+  @RequestMapping(value = Array("/count"))
+  def count(): Long = {
+    emailRepository.count()
   }
 
 }

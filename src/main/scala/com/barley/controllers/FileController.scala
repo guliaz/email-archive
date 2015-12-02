@@ -14,8 +14,9 @@ class FileController {
   }
 
   @RequestMapping(value = Array("/upload"), method = Array(RequestMethod.POST))
-  def upload(@RequestParam("name") name: String, @RequestParam("file") file: MultipartFile) = {
+  def upload(@RequestParam("file") file: MultipartFile) = {
     if (!file.isEmpty) {
+      val name = file.getOriginalFilename
       try {
         val bytes = file.getBytes
         val stream: BufferedOutputStream = new BufferedOutputStream(new FileOutputStream(new File(name)))
@@ -29,7 +30,7 @@ class FileController {
         }
       }
     } else {
-      "You failed to upload " + name + " because the file was empty."
+      "You failed to upload because the file was empty."
     }
   }
 
