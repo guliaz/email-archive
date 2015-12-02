@@ -39,10 +39,13 @@ dependencies {
             'com.jcraft:jsch:0.1.53',
             'org.apache.commons:commons-dbcp2:2.1.1',
             "javax.servlet:javax.servlet-api:3.1.0",
-            'org.webjars:bootstrap:3.3.6'
+            'org.webjars:bootstrap:3.3.6',
+            'org.webjars:jquery:2.1.4',
+            'org.webjars:angularjs:1.4.8'
     )
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.thymeleaf:thymeleaf-spring4")
+    compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
     compile("org.springframework.boot:spring-boot-starter-security")
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile("org.springframework.boot:spring-boot-starter-test")

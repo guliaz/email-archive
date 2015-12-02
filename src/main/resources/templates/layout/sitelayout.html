@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="shortcut icon" th:href="@{/images/dish.png}" href="../../static/images/dish.png"/>
+    <title>Email Archives</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap-theme.css}"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="../../static/css/main.css"/>
+    <script th:href="@{/webjars/jquery/2.1.4/jquery.min.js}" src="/webjars/jquery/2.1.4/jquery.min.js"></script>
+    <script th:href="@{/webjars//2.1.4/jquery.min.js}" src="/webjars/angularjs/1.4.8/angular-animate.js"></script>
+    <script th:href="@{/webjars//2.1.4/jquery.min.js}" src="/webjars/angularjs/1.4.8/angular.js"></script>
+    <script th:href="@{/webjars//2.1.4/jquery.min.js}" src="/webjars/angularjs/1.4.8/angular-route.js"></script>
+    <script th:href="@{/webjars//2.1.4/jquery.min.js}" src="/webjars/angularjs/1.4.8/angular-resource.js"></script>
+    <script th:href="@{js/controllers.js}"></script>
+    <script th:href="@{js/app.js}"></script>
+    <script th:href="@{js/services.js}"></script>
+    <script th:href="@{js/filters.js}"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img th:href="@{/images/dish.png}" href="../../static/images/dish.png" height="35" width="95"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#/emails">Emails</a></li>
+                <li><a href="#/cap">CAP Plan</a></li>
+                <li><a href="">Settings</a></li>
+                <li><a href="">Help</a></li>
+            </ul>
+
+            <form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Search..."/>
+            </form>
+        </div>
+    </div>
+</nav>
+<div layout:fragment="content">
+    <h1>Static content for prototyping purposes only</h1>
+
+    <p>
+        This is the layout of the site. The actual content will come from individual views making use of this layout
+    </p>
+</div>
+<div class="view-container">
+    <div ng-view="" class="view-frame"></div>
+</div>
+<div id="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <hr/>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
