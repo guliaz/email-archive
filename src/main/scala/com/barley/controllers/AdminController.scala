@@ -10,18 +10,6 @@ import org.springframework.web.servlet.ModelAndView
 @Controller
 class AdminController {
 
-  @RequestMapping(value = Array("/", "/index"))
-  def index(model: ModelAndView): ModelAndView = {
-    model.setViewName("index")
-    model
-  }
-
-  @RequestMapping(value = Array("/home"))
-  def home(model: ModelAndView): ModelAndView = {
-    model.setViewName("home")
-    model
-  }
-
   @RequestMapping(value = Array("/login"))
   def login(model: ModelAndView): ModelAndView = {
     model.setViewName("login")

@@ -38,6 +38,17 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library name="Gradle: org.springframework:spring-beans:4.2.3.RELEASE">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-beans/4.2.3.RELEASE/249921ead97248410ac04f854075f0a1c1a567e4/spring-beans-4.2.3.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-beans/4.2.3.RELEASE/a5a54ce1e6b8ce06244bc318569939bd77f504d7/spring-beans-4.2.3.RELEASE-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="Gradle: org.springframework.boot:spring-boot-starter-data-jpa:1.3.0.RELEASE">
         <CLASSES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-data-jpa/1.3.0.RELEASE/77ed2c58bb488b26a590db6563300d35d2a53567/spring-boot-starter-data-jpa-1.3.0.RELEASE.jar!/" />
@@ -168,17 +179,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.springframework:spring-tx:4.2.3.RELEASE">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-tx/4.2.3.RELEASE/617420d7e0351c334aa4495d6f30ad21c4c643a7/spring-tx-4.2.3.RELEASE.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-tx/4.2.3.RELEASE/28364afe1f0643121d1f3688d6ac3eacc68d84dc/spring-tx-4.2.3.RELEASE-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="Gradle: org.webjars:angularjs:1.4.8">
         <CLASSES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.webjars/angularjs/1.4.8/509ac10cd64801532bbcd47c73fb5e8b222a3a80/angularjs-1.4.8.jar!/" />
@@ -212,17 +212,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:1.3.1">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect/1.3.1/612621a307427d822e1d8df99a4f24af9ff2689c/thymeleaf-layout-dialect-1.3.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect/1.3.1/305accc40df1d83d8e712b7e6a8246b46ca497d5/thymeleaf-layout-dialect-1.3.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="Gradle: org.springframework.boot:spring-boot-starter-security:1.3.0.RELEASE">
         <CLASSES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-security/1.3.0.RELEASE/2bec13c6f320f9765cddba1ccf798600f2da87d8/spring-boot-starter-security-1.3.0.RELEASE.jar!/" />
@@ -245,13 +234,46 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.springframework:spring-beans:4.2.3.RELEASE">
+      <library name="Gradle: org.springframework.data:spring-data-commons:1.11.1.RELEASE">
         <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-beans/4.2.3.RELEASE/249921ead97248410ac04f854075f0a1c1a567e4/spring-beans-4.2.3.RELEASE.jar!/" />
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.11.1.RELEASE/bb04a4cba7a44b8822a63e1681eb9667955bc8bf/spring-data-commons-1.11.1.RELEASE.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-beans/4.2.3.RELEASE/a5a54ce1e6b8ce06244bc318569939bd77f504d7/spring-beans-4.2.3.RELEASE-sources.jar!/" />
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.11.1.RELEASE/5f4d04d8b63ef80760420c62bd7691975c2dd2b1/spring-data-commons-1.11.1.RELEASE-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.springframework:spring-orm:4.2.3.RELEASE">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-orm/4.2.3.RELEASE/bd954843a54630fd8e45a2fc6f28140154d32188/spring-orm-4.2.3.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-orm/4.2.3.RELEASE/d3e87ec108c555d41df4e4140f28e5981c2c428/spring-orm-4.2.3.RELEASE-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.springframework:spring-context:4.2.3.RELEASE">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-context/4.2.3.RELEASE/fb26a160d984eb9cbf01fbf38f4b17e15fdd50e1/spring-context-4.2.3.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-context/4.2.3.RELEASE/e27b48d7dab85e42e81b648c94bb2c3255852c0/spring-context-4.2.3.RELEASE-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.springframework:spring-tx:4.2.3.RELEASE">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-tx/4.2.3.RELEASE/617420d7e0351c334aa4495d6f30ad21c4c643a7/spring-tx-4.2.3.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-tx/4.2.3.RELEASE/28364afe1f0643121d1f3688d6ac3eacc68d84dc/spring-tx-4.2.3.RELEASE-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -274,6 +296,17 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-jdbc/1.3.0.RELEASE/952ac7c76f5c7133bea85152c966fd7e194ed6cb/spring-boot-starter-jdbc-1.3.0.RELEASE-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.slf4j:jcl-over-slf4j:1.7.13">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.slf4j/jcl-over-slf4j/1.7.13/d78d2242e14e4182625152d225f76ae52b43491d/jcl-over-slf4j-1.7.13.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.slf4j/jcl-over-slf4j/1.7.13/988decf2bd4133c233f1e63f0da7368ee78c6405/jcl-over-slf4j-1.7.13-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -322,6 +355,17 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library name="Gradle: org.apache.tomcat.embed:tomcat-embed-core:8.0.28">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-core/8.0.28/dd5f6dea56f0227f1b4e7d85ae6ad8041886fcad/tomcat-embed-core-8.0.28.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-core/8.0.28/707d731231a254819e7f7fc81928cb6c15314945/tomcat-embed-core-8.0.28-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:1.3.0.RELEASE">
         <CLASSES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-tomcat/1.3.0.RELEASE/5644559c2333d9ab2af574609624d5918f07eee9/spring-boot-starter-tomcat-1.3.0.RELEASE.jar!/" />
@@ -355,35 +399,13 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.springframework.data:spring-data-commons:1.11.1.RELEASE">
+      <library name="Gradle: org.apache.tomcat.embed:tomcat-embed-el:8.0.28">
         <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.11.1.RELEASE/bb04a4cba7a44b8822a63e1681eb9667955bc8bf/spring-data-commons-1.11.1.RELEASE.jar!/" />
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-el/8.0.28/12ff86316ae8835b410461401ce8a77d040b0c5f/tomcat-embed-el-8.0.28.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/1.11.1.RELEASE/5f4d04d8b63ef80760420c62bd7691975c2dd2b1/spring-data-commons-1.11.1.RELEASE-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.springframework:spring-orm:4.2.3.RELEASE">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-orm/4.2.3.RELEASE/bd954843a54630fd8e45a2fc6f28140154d32188/spring-orm-4.2.3.RELEASE.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-orm/4.2.3.RELEASE/d3e87ec108c555d41df4e4140f28e5981c2c428/spring-orm-4.2.3.RELEASE-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.springframework:spring-context:4.2.3.RELEASE">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-context/4.2.3.RELEASE/fb26a160d984eb9cbf01fbf38f4b17e15fdd50e1/spring-context-4.2.3.RELEASE.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-context/4.2.3.RELEASE/e27b48d7dab85e42e81b648c94bb2c3255852c0/spring-context-4.2.3.RELEASE-sources.jar!/" />
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-el/8.0.28/a290f9a7dd1d4c534bc4d9832688b793797e25a7/tomcat-embed-el-8.0.28-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -399,94 +421,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.springframework:spring-webmvc:4.2.3.RELEASE">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-webmvc/4.2.3.RELEASE/46803840259c6d51c531e4f07f4213d758c6ee1d/spring-webmvc-4.2.3.RELEASE.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-webmvc/4.2.3.RELEASE/d2ccd08b31ae2582fc499d0e92178e9a133ae27d/spring-webmvc-4.2.3.RELEASE-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: commons-codec:commons-codec:1.9">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/commons-codec/commons-codec/1.9/9ce04e34240f674bc72680f8b843b1457383161a/commons-codec-1.9.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/commons-codec/commons-codec/1.9/3f15fff45d57656685abfee9e8302bf14580044c/commons-codec-1.9-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.slf4j:jcl-over-slf4j:1.7.13">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.slf4j/jcl-over-slf4j/1.7.13/d78d2242e14e4182625152d225f76ae52b43491d/jcl-over-slf4j-1.7.13.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.slf4j/jcl-over-slf4j/1.7.13/988decf2bd4133c233f1e63f0da7368ee78c6405/jcl-over-slf4j-1.7.13-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.apache.tomcat:tomcat-juli:8.0.28">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-juli/8.0.28/924035c8550867c0ae1f16b3e036be8fd2e3424b/tomcat-juli-8.0.28.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-juli/8.0.28/b97f836310bac1b0cfd0af02f95f14a114e3cc9b/tomcat-juli-8.0.28-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.apache.tomcat.embed:tomcat-embed-core:8.0.28">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-core/8.0.28/dd5f6dea56f0227f1b4e7d85ae6ad8041886fcad/tomcat-embed-core-8.0.28.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-core/8.0.28/707d731231a254819e7f7fc81928cb6c15314945/tomcat-embed-core-8.0.28-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.apache.commons:commons-pool2:2.4.2">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.commons/commons-pool2/2.4.2/e5f4f28f19d57716fbc3989d7a357ebf1e454fea/commons-pool2-2.4.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.commons/commons-pool2/2.4.2/2c9dcae4975caff05a627b99fae76e6fef2a3a0e/commons-pool2-2.4.2-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.apache.tomcat.embed:tomcat-embed-el:8.0.28">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-el/8.0.28/12ff86316ae8835b410461401ce8a77d040b0c5f/tomcat-embed-el-8.0.28.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-el/8.0.28/a290f9a7dd1d4c534bc4d9832688b793797e25a7/tomcat-embed-el-8.0.28-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: commons-logging:commons-logging:1.2">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/ecf26c7507d67782a3bbd148d170b31dfad001aa/commons-logging-1.2-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="Gradle: org.apache.tomcat.embed:tomcat-embed-logging-juli:8.0.28">
         <CLASSES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-logging-juli/8.0.28/315e9c3d6d93fcb482eea89ee23c9af9fd1cc4b5/tomcat-embed-logging-juli-8.0.28.jar!/" />
@@ -494,17 +428,6 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-logging-juli/8.0.28/65b17278559b70ae1d20cd68ffbf3b467ce8a87d/tomcat-embed-logging-juli-8.0.28-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.springframework.boot:spring-boot-actuator:1.3.0.RELEASE">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-actuator/1.3.0.RELEASE/fe289686902cd4a7dc98fb7203f82ed87ee5752e/spring-boot-actuator-1.3.0.RELEASE.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-actuator/1.3.0.RELEASE/c5384a5429960aae9775e1f9dfebb14bef66a6d5/spring-boot-actuator-1.3.0.RELEASE-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -520,24 +443,13 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.thymeleaf:thymeleaf:2.1.4.RELEASE">
+      <library name="Gradle: org.springframework:spring-webmvc:4.2.3.RELEASE">
         <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.thymeleaf/thymeleaf/2.1.4.RELEASE/a730d892f3c57ba3d24af2ca657b42d81398a85a/thymeleaf-2.1.4.RELEASE.jar!/" />
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-webmvc/4.2.3.RELEASE/46803840259c6d51c531e4f07f4213d758c6ee1d/spring-webmvc-4.2.3.RELEASE.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.thymeleaf/thymeleaf/2.1.4.RELEASE/4aa7049660b4d1a6a34348c1fdd91cd5d8eee1cb/thymeleaf-2.1.4.RELEASE-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.slf4j:slf4j-api:1.7.13">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.13/7fcf30c25b8f4a9379b9dad0d3f487b25272c026/slf4j-api-1.7.13.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.13/96e785df399a4e1a6c030877097807b7e18520cc/slf4j-api-1.7.13-sources.jar!/" />
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-webmvc/4.2.3.RELEASE/d2ccd08b31ae2582fc499d0e92178e9a133ae27d/spring-webmvc-4.2.3.RELEASE-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -549,6 +461,17 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.hibernate/hibernate-validator/5.2.2.Final/e99f81c395344c926b514fc4441d23f3cc8b0a33/hibernate-validator-5.2.2.Final-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: commons-codec:commons-codec:1.9">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/commons-codec/commons-codec/1.9/9ce04e34240f674bc72680f8b843b1457383161a/commons-codec-1.9.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/commons-codec/commons-codec/1.9/3f15fff45d57656685abfee9e8302bf14580044c/commons-codec-1.9-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -575,6 +498,17 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library name="Gradle: org.apache.tomcat:tomcat-juli:8.0.28">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-juli/8.0.28/924035c8550867c0ae1f16b3e036be8fd2e3424b/tomcat-juli-8.0.28.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-juli/8.0.28/b97f836310bac1b0cfd0af02f95f14a114e3cc9b/tomcat-juli-8.0.28-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="Gradle: org.springframework:spring-expression:4.2.3.RELEASE">
         <CLASSES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-expression/4.2.3.RELEASE/67b064c726c276436387c7a183a49deda153a6cc/spring-expression-4.2.3.RELEASE.jar!/" />
@@ -582,6 +516,39 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-expression/4.2.3.RELEASE/cc7ab2bf537916b2cb7180c0109a95a653018f5b/spring-expression-4.2.3.RELEASE-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.apache.commons:commons-pool2:2.4.2">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.commons/commons-pool2/2.4.2/e5f4f28f19d57716fbc3989d7a357ebf1e454fea/commons-pool2-2.4.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.apache.commons/commons-pool2/2.4.2/2c9dcae4975caff05a627b99fae76e6fef2a3a0e/commons-pool2-2.4.2-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: commons-logging:commons-logging:1.2">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/ecf26c7507d67782a3bbd148d170b31dfad001aa/commons-logging-1.2-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.springframework.boot:spring-boot-actuator:1.3.0.RELEASE">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-actuator/1.3.0.RELEASE/fe289686902cd4a7dc98fb7203f82ed87ee5752e/spring-boot-actuator-1.3.0.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-actuator/1.3.0.RELEASE/c5384a5429960aae9775e1f9dfebb14bef66a6d5/spring-boot-actuator-1.3.0.RELEASE-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -597,13 +564,13 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.codehaus.groovy:groovy:2.4.4">
+      <library name="Gradle: org.thymeleaf:thymeleaf:2.1.4.RELEASE">
         <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.codehaus.groovy/groovy/2.4.4/62dc4f50804c40f3233977e2d3d1a4abca60bc41/groovy-2.4.4.jar!/" />
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.thymeleaf/thymeleaf/2.1.4.RELEASE/a730d892f3c57ba3d24af2ca657b42d81398a85a/thymeleaf-2.1.4.RELEASE.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.codehaus.groovy/groovy/2.4.4/6f1b1572c61cae5a00287b731ad9ba5c6c904471/groovy-2.4.4-sources.jar!/" />
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.thymeleaf/thymeleaf/2.1.4.RELEASE/4aa7049660b4d1a6a34348c1fdd91cd5d8eee1cb/thymeleaf-2.1.4.RELEASE-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -619,13 +586,13 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.springframework:spring-aop:4.2.3.RELEASE">
+      <library name="Gradle: org.slf4j:slf4j-api:1.7.13">
         <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-aop/4.2.3.RELEASE/6384a57a024df03bfcb1eeccd3d820da98125b92/spring-aop-4.2.3.RELEASE.jar!/" />
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.13/7fcf30c25b8f4a9379b9dad0d3f487b25272c026/slf4j-api-1.7.13.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-aop/4.2.3.RELEASE/ebe83d6609718d2f8ef8e164e7874207adda64d/spring-aop-4.2.3.RELEASE-sources.jar!/" />
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.13/96e785df399a4e1a6c030877097807b7e18520cc/slf4j-api-1.7.13-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -652,28 +619,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.springframework.security:spring-security-config:4.0.3.RELEASE">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.security/spring-security-config/4.0.3.RELEASE/31c0a4d0159f1b668d9512f57fb46aac29949b08/spring-security-config-4.0.3.RELEASE.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.security/spring-security-config/4.0.3.RELEASE/bd3bb4fe94511bb792756965b165af95a48481ad/spring-security-config-4.0.3.RELEASE-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Gradle: org.springframework.security:spring-security-web:4.0.3.RELEASE">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.security/spring-security-web/4.0.3.RELEASE/5f0233d94ca53ac8710780b43791f633f970480a/spring-security-web-4.0.3.RELEASE.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.security/spring-security-web/4.0.3.RELEASE/55f9964e0833d0d116a94d5b8eaf3fa30d429c98/spring-security-web-4.0.3.RELEASE-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="Gradle: ch.qos.logback:logback-classic:1.1.3">
         <CLASSES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.1.3/d90276fff414f06cb375f2057f6778cd63c6082f/logback-classic-1.1.3.jar!/" />
@@ -681,6 +626,17 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.1.3/f4915df0360e7529c61f9e78ef3a06c19238e62e/logback-classic-1.1.3-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.springframework:spring-aop:4.2.3.RELEASE">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-aop/4.2.3.RELEASE/6384a57a024df03bfcb1eeccd3d820da98125b92/spring-aop-4.2.3.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-aop/4.2.3.RELEASE/ebe83d6609718d2f8ef8e164e7874207adda64d/spring-aop-4.2.3.RELEASE-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -738,17 +694,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="Gradle: org.springframework:spring-core:4.2.3.RELEASE">
-        <CLASSES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-core/4.2.3.RELEASE/3ed00dad7a16b2a28df9348294f6a67151f43cf6/spring-core-4.2.3.RELEASE.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-core/4.2.3.RELEASE/20ed33f924eb214e5600da3b93cb46289891dc01/spring-core-4.2.3.RELEASE-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="Gradle: javax.validation:validation-api:1.1.0.Final">
         <CLASSES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/javax.validation/validation-api/1.1.0.Final/8613ae82954779d518631e05daa73a6a954817d5/validation-api-1.1.0.Final.jar!/" />
@@ -767,6 +712,28 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/com.fasterxml/classmate/1.1.0/53b184da3b8780beff23ba6bf1aaece92ee45e6f/classmate-1.1.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.springframework.security:spring-security-config:4.0.3.RELEASE">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.security/spring-security-config/4.0.3.RELEASE/31c0a4d0159f1b668d9512f57fb46aac29949b08/spring-security-config-4.0.3.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.security/spring-security-config/4.0.3.RELEASE/bd3bb4fe94511bb792756965b165af95a48481ad/spring-security-config-4.0.3.RELEASE-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.springframework.security:spring-security-web:4.0.3.RELEASE">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.security/spring-security-web/4.0.3.RELEASE/5f0233d94ca53ac8710780b43791f633f970480a/spring-security-web-4.0.3.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.security/spring-security-web/4.0.3.RELEASE/55f9964e0833d0d116a94d5b8eaf3fa30d429c98/spring-security-web-4.0.3.RELEASE-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -811,6 +778,17 @@
         <JAVADOC />
         <SOURCES>
           <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-logging/1.3.0.RELEASE/6e80bf1fb64e539f2c1b18af9e2d59d0cce9c7b8/spring-boot-starter-logging-1.3.0.RELEASE-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Gradle: org.springframework:spring-core:4.2.3.RELEASE">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-core/4.2.3.RELEASE/3ed00dad7a16b2a28df9348294f6a67151f43cf6/spring-core-4.2.3.RELEASE.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/caches/modules-2/files-2.1/org.springframework/spring-core/4.2.3.RELEASE/20ed33f924eb214e5600da3b93cb46289891dc01/spring-core-4.2.3.RELEASE-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -1012,5 +990,6 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="scala-sdk-2.11.7" level="project" />
   </component>
 </module>

@@ -4,12 +4,12 @@ var emailAppServices = angular.module('emailAppServices', ['ngResource']);
 
 emailAppServices.factory('Count', ['$resource',
     function ($resource) {
-        return $resource('/api/db/?count=count', {});
+        return $resource('/emails/count', {});
     }]);
 
 emailAppServices.factory('Db', ['$resource',
     function ($resource) {
-        return $resource('/api/db/', {}, {
+        return $resource('/emails/list', {}, {
             query: {method: 'GET', isArray: true}
         });
     }]);

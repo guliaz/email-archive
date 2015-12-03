@@ -30,6 +30,7 @@ AppControllers.controller('EmailListCtrl', ['$scope', 'Db', 'Count',
         $scope.emails = Db.query({page: $scope.page, number: $scope.numPerPage});
 
         $scope.showHide = function (email) {
+            console.log(email)
             if (email.show === true) {
                 email.show = !email.show;
                 if (email.showBody === true)

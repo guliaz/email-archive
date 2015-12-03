@@ -2,7 +2,7 @@ package com.barley.model
 
 import java.lang
 import java.util.Date
-import javax.persistence.{Entity, GeneratedValue, Id}
+import javax.persistence._
 
 import scala.beans.BeanProperty
 
@@ -56,5 +56,11 @@ class Email {
   // varchar  200 null
   @BeanProperty
   var display_bcc: String = _
+  @BeanProperty
+  @Transient
+  var show: Boolean = false;
+  @BeanProperty
+  @Transient
+  var showBody: Boolean = false;
 
 }
