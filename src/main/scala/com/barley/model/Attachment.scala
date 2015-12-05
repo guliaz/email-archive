@@ -2,7 +2,7 @@ package com.barley.model
 
 import java.lang
 import java.util.Date
-import javax.persistence.{Entity, GeneratedValue, Id}
+import javax.persistence.{Column, Entity, GeneratedValue, Id}
 
 import scala.beans.BeanProperty
 
@@ -17,7 +17,8 @@ class Attachment {
   @BeanProperty
   var attachment_id: lang.Long = _
   @BeanProperty
-  var message_id: lang.Long = _
+  @Column(name = "message_id")
+  var messageId: lang.Long = _
   @BeanProperty
   var attachment_type: String = _
   @BeanProperty

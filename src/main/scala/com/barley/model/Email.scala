@@ -1,7 +1,7 @@
 package com.barley.model
 
-import java.lang
 import java.util.Date
+import java.{lang, util}
 import javax.persistence._
 
 import scala.beans.BeanProperty
@@ -62,5 +62,8 @@ class Email {
   @BeanProperty
   @Transient
   var showBody: Boolean = false;
+  @BeanProperty
+  @Transient
+  var fileArray: util.List[File] = _
 
 }

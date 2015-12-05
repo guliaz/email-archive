@@ -1,13 +1,12 @@
 package com.barley.controllers
 
-import java.lang.{Long, Iterable}
+import java.lang.{Iterable, Long}
 import java.util
-import javax.sql.DataSource
 
-import com.barley.model.Email
+import com.barley.model.{Attachment, Email, File}
 import com.barley.respository.{AttachmentRepository, EmailRepository, FileRepository, RecipientRepository}
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.{RequestParam, RequestMethod, RequestMapping, RestController}
+import org.springframework.web.bind.annotation.{RequestMapping, RequestMethod, RequestParam, RestController}
 
 /**
   * Created by vikram.gulia on 11/25/15.
@@ -38,11 +37,36 @@ class EmailController @Autowired()(
 
   @RequestMapping(value = Array("/list"), method = Array(RequestMethod.GET), produces = Array("application/json"))
   def list(@RequestParam("page") page: Long, @RequestParam("number") numPerPage: Long): Iterable[Email] = {
-    val listOfIds: util.ArrayList[Long] = new util.ArrayList[Long]()
-    for (i <- ((page - 1) * numPerPage + 1) to ((page - 1) * numPerPage + numPerPage)) {
-      listOfIds.add(i)
-    }
-    emailRepository.findAll(listOfIds)
-
+    getEmails(page, numPerPage)
   }
+
+  def getEmails(page: Long, numPerPage: Long): Iterable[Email] = {
+    val ids: util.List[Long] = new util.ArrayList[Long]
+    var start: Long = (page - 1) * numPerPage + 1
+    val end: Long = ((page - 1) * numPerPage) + numPerPage
+    while (end > start) {
+      ids.add(start)
+      start += 1
+    }
+    val emails: Iterable[Email] = emailRepository.findAll(ids)
+    import scala.collection.JavaConversions._
+    for (email <- emails) {
+      val attachments: Iterable[Attachment] = attachmentRepository.findByMessageId(email.message_id)
+      println(attachments)
+      val fileIds: util.List[Long] = new util.ArrayList[Long]
+      for (attachment <- attachments) {
+        fileIds.add(attachment.file_id)
+      }
+      val fileIterable: Iterable[File] = fileRepository.findAll(fileIds)
+      println(fileIterable)
+      val files: util.List[File] = new util.ArrayList[File]
+      for (file <- fileIterable) {
+        files.add(file)
+      }
+      println(files)
+      email.setFileArray(files)
+    }
+    emails
+  }
+
 }
