@@ -18,6 +18,7 @@ class EmailController @Autowired()(
                                     private val attachmentRepository: AttachmentRepository,
                                     private val fileRepository: FileRepository,
                                     private val recipientRepository: RecipientRepository
+
                                   ) {
 
   val msg_query1 = "select message_id, outlook_id, subject, from_email, from_name, to_email, body_text, message_date, rank from " +
