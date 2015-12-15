@@ -1,7 +1,6 @@
 group 'com.barley.spring'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'scala'
 apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'spring-boot'
@@ -27,7 +26,6 @@ repositories {
 
 dependencies {
     compile(
-            "org.scala-lang:scala-library:2.11.7",
             'org.springframework.boot:spring-boot-starter-data-jpa',
             'org.springframework.boot:spring-boot-starter-web',
             //"com.barley.msg:msgparser:1.12",
