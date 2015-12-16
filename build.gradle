@@ -28,12 +28,10 @@ dependencies {
     compile(
             'org.springframework.boot:spring-boot-starter-data-jpa',
             'org.springframework.boot:spring-boot-starter-web',
-            //"com.barley.msg:msgparser:1.12",
-            //'org.apache.poi:poi:3.13',
-            //'org.apache.poi:poi-scratchpad:3.13',
+            "com.barley.msg:msgparser:1.12",
+            'org.apache.poi:poi:3.13',
+            'org.apache.poi:poi-scratchpad:3.13',
             'mysql:mysql-connector-java:5.1.35',
-            'org.apache.tomcat:tomcat-dbcp:8.0.28',
-            'com.jcraft:jsch:0.1.53',
             'org.apache.commons:commons-dbcp2:2.1.1',
             "javax.servlet:javax.servlet-api:3.1.0",
             'org.webjars:bootstrap:3.3.6',
@@ -42,7 +40,7 @@ dependencies {
     )
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.thymeleaf:thymeleaf-spring4")
-    compile("org.springframework.boot:spring-boot-starter-security")
+    //compile("org.springframework.boot:spring-boot-starter-security")
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
