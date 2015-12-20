@@ -5,8 +5,8 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'spring-boot'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 buildscript {
     repositories {
@@ -26,8 +26,6 @@ repositories {
 
 dependencies {
     compile(
-            'org.springframework.boot:spring-boot-starter-data-jpa',
-            'org.springframework.boot:spring-boot-starter-web',
             "com.barley.msg:msgparser:1.12",
             'org.apache.poi:poi:3.13',
             'org.apache.poi:poi-scratchpad:3.13',
@@ -38,13 +36,31 @@ dependencies {
             'org.webjars:jquery:2.1.4',
             'org.webjars:angularjs:1.4.8'
     )
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile('org.springframework.boot:spring-boot-starter-data-jpa') {
+        exclude group: "org.slf4j", module: "log4j-over-slf4j"
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
+    compile('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: "org.slf4j", module: "log4j-over-slf4j"
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
+    compile("org.springframework.boot:spring-boot-starter-actuator") {
+        exclude group: "org.slf4j", module: "log4j-over-slf4j"
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
     compile("org.thymeleaf:thymeleaf-spring4")
-    //compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-security") {
+        exclude group: "org.slf4j", module: "log4j-over-slf4j"
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: "org.slf4j", module: "log4j-over-slf4j"
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
 }
 
+// task only for heroku use
 task stage {
     dependsOn bootRepackage
 }

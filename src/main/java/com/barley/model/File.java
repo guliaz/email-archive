@@ -1,5 +1,6 @@
 package com.barley.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,8 +12,10 @@ public class File {
     @Id
     @GeneratedValue
     private Long file_id;
-    private String file_name;
-    private String long_file_name;
+    @Column(name = "file_name")
+    private String fileName;
+    @Column(name = "long_file_name")
+    private String longFileName;
     private String mime_tag;
     private String extension;
     private byte[] data;
@@ -26,20 +29,20 @@ public class File {
         this.file_id = file_id;
     }
 
-    public String getFile_name() {
-        return file_name;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFile_name(String file_name) {
-        this.file_name = file_name;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public String getLong_file_name() {
-        return long_file_name;
+    public String getLongFileName() {
+        return longFileName;
     }
 
-    public void setLong_file_name(String long_file_name) {
-        this.long_file_name = long_file_name;
+    public void setLongFileName(String longFileName) {
+        this.longFileName = longFileName;
     }
 
     public String getMime_tag() {

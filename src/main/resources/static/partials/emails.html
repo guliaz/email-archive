@@ -30,7 +30,8 @@
                     </ul>
                 </div>
                 <span>Total emails: {{totalEmails.count}}</span>
-                <span align="center"><input type="text" size="50" placeholder="Filter emails..." ng-model="query"></span>
+                <span align="center"><input type="text" size="50" placeholder="Filter emails..."
+                                            ng-model="query"></span>
                 <span class="pull-right">
                     <div class="dropdown">
                         <button class="dropdown-toggle" type="button" data-toggle="dropdown">
@@ -73,7 +74,7 @@
                         <a class="show-{{email.show}}" href="" ng-click="showText(email)">body</a>
                         <ul class="show-{{email.show}}">
                             <li class="list-inline" ng-repeat="attachment in email.fileArray">
-                                <a href="/api/db/?file_name={{attachment.long_file_name}}" target="_blank">{{attachment.long_file_name}}</a>
+                                <a href="/emails/file?file_name={{attachment.longFileName}}" target="_blank">{{attachment.longFileName}}</a>
                             </li>
                         </ul>
                         <pre class="show-{{email.showBody}} pre-scrollable">

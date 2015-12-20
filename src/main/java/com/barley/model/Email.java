@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +35,7 @@ public class Email {
     @Transient
     private boolean showBody = false;
     @Transient
-    private List<File> fileArray;
+    private List<File> fileArray = new ArrayList<>();
 
     public Long getMessage_id() {
         return message_id;
@@ -90,24 +93,24 @@ public class Email {
         this.from_name = from_name;
     }
 
-    public Date getMessage_creation_date() {
-        return message_creation_date;
+    public String getMessage_creation_date() {
+        return getDateString(message_creation_date);
     }
 
     public void setMessage_creation_date(Date message_creation_date) {
         this.message_creation_date = message_creation_date;
     }
 
-    public Date getMessage_date() {
-        return message_date;
+    public String getMessage_date() {
+        return getDateString(message_date);
     }
 
     public void setMessage_date(Date message_date) {
         this.message_date = message_date;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public String getDate_created() {
+        return getDateString(date_created);
     }
 
     public void setDate_created(Date date_created) {
@@ -176,5 +179,13 @@ public class Email {
 
     public void setFileArray(List<File> fileArray) {
         this.fileArray = fileArray;
+    }
+
+    @Transient
+    private String getDateString(Date date) {
+        if (date == null)
+            return null;
+        else
+            return date.toString();
     }
 }

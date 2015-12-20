@@ -1,4 +1,4 @@
-/**package com.barley.security;
+package com.barley.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -6,9 +6,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableWebSecurity
+@CrossOrigin
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -18,6 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/emails/**").permitAll()
                 //.antMatchers("/", "/index").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -34,4 +37,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("vikram.gulia").password("risalo87").roles("USER");
     }
-}*/
+}
