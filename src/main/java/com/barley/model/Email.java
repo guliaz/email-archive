@@ -35,7 +35,9 @@ public class Email {
     @Transient
     private boolean showBody = false;
     @Transient
-    private List<File> fileArray = new ArrayList<>();
+    private List<String> fileArray = new ArrayList<>();
+    @Transient
+    private List<Long> emailArray = new ArrayList<>();
 
     public Long getMessage_id() {
         return message_id;
@@ -173,12 +175,20 @@ public class Email {
         this.showBody = showBody;
     }
 
-    public List<File> getFileArray() {
+    public List<String> getFileArray() {
         return fileArray;
     }
 
-    public void setFileArray(List<File> fileArray) {
+    public void setFileArray(List<String> fileArray) {
         this.fileArray = fileArray;
+    }
+
+    public List<Long> getEmailArray() {
+        return emailArray;
+    }
+
+    public void setEmailArray(List<Long> emailArray) {
+        this.emailArray = emailArray;
     }
 
     @Transient
@@ -186,6 +196,6 @@ public class Email {
         if (date == null)
             return null;
         else
-            return date.toString();
+            return date.toLocaleString();
     }
 }
