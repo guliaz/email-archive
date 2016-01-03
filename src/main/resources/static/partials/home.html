@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/sitelayout">
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
-<form method="POST" enctype="multipart/form-data" action="/upload">
-    File to upload: <input type="file" name="file"/><br/>
-    Name: <input type="text" name="name"/><br/> <br/> <input type="submit" value="Upload"/> Press here to upload the
-    file!
+<form method="POST" enctype="multipart/form-data" action="/files/upload">
+    File to upload: <input type="file" name="file"/>
+    <br/>
+    <br/>
+    <input type="submit" value="Upload"/> Press here to upload the files!
 </form>
 <br/>
 

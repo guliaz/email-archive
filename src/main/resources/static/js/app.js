@@ -13,9 +13,9 @@ myApp.config(['$routeProvider',
             when('/emails', {
                 templateUrl: 'partials/emails.html',
                 controller: 'EmailListCtrl'
-            }).when('/cap', {
-                templateUrl: 'partials/cap.html',
-                controller: 'CapController'
+            }).when('/upload', {
+                templateUrl: 'partials/upload.html',
+                controller: 'FileController'
             }).otherwise({
                 redirectTo: '/emails'
             });

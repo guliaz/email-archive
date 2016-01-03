@@ -1,34 +1,21 @@
-<script>
-    $(window).scroll(function() {
-        if($(window).scrollTop() == $(document).height() - $(window).height()) {
-            // ajax call get data from server and append to the div
-            var $loading = $("<div class='loading'><p>Loading more items&hellip;</p></div>");
-            $('body').append($loading);
-        }
-    });
-</script>
-<div class="jumbotron" ng-controller="EmailListCtrl as listCtrl">
+<div class="jumbotron">
     <div class="container">
         <div class="view-container">
             <div class="col-md-12">
                 <!--Body content-->
                 <div>
                     <ul class="pager">
-                        <li class={{page==1?"disabled":""}}>
-                            <a href="" ng-click=page==1?"":getPage(page-1)
+                        <li class={{page==0?"disabled":""}}>
+                            <a href="" ng-click=page==0?"":getPage(page-1)
                                aria-label="Previous">
                                 <span aria-hidden="true">Previous</span>
                             </a>
                         </li>
-                        <!--<li class={{page==$index+1?"active":""}}
-                            ng-repeat="i in getNumber(totalEmails.count) track by $index">
-                            <a href="" ng-click="getPage($index+1)">{{$index+1}}</a>
-                        </li>-->
-                        <li class={{page==1?"disabled":""}}>
-                            <a href="" ng-click=getPage(1)>first</a></li>
-                        <li class="disabled"><a href="">{{page}}</a></li>
+                        <li class={{page==0?"disabled":""}}>
+                            <a href="" ng-click=page==0?"":getPage(0)>first</a></li>
+                        <li class="disabled"><a href="">{{page+1}}</a></li>
                         <li class={{page==getNumber(totalEmails.count).length?"disabled":""}}>
-                            <a href="" ng-click=getPage(getNumber(totalEmails.count).length)>last</a>
+                            <a href="" ng-click=page==getNumber(totalEmails.count).length?"":getPage(getNumber(totalEmails.count).length)>last</a>
                         </li>
                         <li class={{page==getNumber(totalEmails.count).length?"disabled":""}}>
                             <a href="" ng-click=page==getNumber(totalEmails.count).length?"":getPage(page+1)
@@ -38,15 +25,17 @@
                         </li>
                     </ul>
                 </div>
-                <span>Total emails: {{totalEmails.count}}</span>
-                <span align="center"><input type="text" size="50" placeholder="Filter emails..."
-                                            ng-model="query"></span>
-                <span class="pull-right">
-                    <div class="dropdown">
-                        <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-                            Select Per Page <span class="caret"></span>
+                <div class="col-md-12 row">
+                    <div class="col-md-2">Total emails: {{totalEmails.count}}</div>
+                    <div class="col-md-5"><input type="text" size="30" placeholder="Filter emails..." ng-model="query">
+                    </div>
+                    <div class="col-md-2 dropdown pull-right">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Select Per Page
+                            <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                             <li class={{numPerPage==100?"disabled":""}}><a href=""
                                                                            ng-click=numPerPage==100?"":updatePerPage(100)>Show
                                 100</a></li>
@@ -67,8 +56,8 @@
                             </li>
                         </ul>
                     </div>
-                </span>
-                <span class="pull-right">Per page emails: {{data.length}} &nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <div class="col-md-3">Per page emails: {{numPerPage}} &nbsp;&nbsp;&nbsp;&nbsp;</div>
+                </div>
                 <br>
                 <br>
                 <ul class="list-group">
@@ -76,19 +65,41 @@
                         class="list-group-item">
                         <a href="" ng-click="showHide(email)">{{email.message_id}}</a>
                         <a href="" ng-click="showHide(email)"><b>{{email.subject.substring(0,100)}}</b></a>&nbsp;&nbsp;(<i>{{email.from_name}}</i>)
-                        <i class="pull-right">{{email.message_date}}</i>
+                        <i class="pull-right">
+                            <button class="btn btn-primary btn-xs" type="button" ng-click=deleteEmail($index,email)>
+                                Delete it!
+                            </button>
+                        </i>
+                        <em class="pull-right" style="margin-right: 10px">
+                            {{email.message_date!=null?email.message_date:email.date_created}}
+                        </em>
                         <br class="show-{{email.show}}">
                         <em class="show-{{email.show}}">From : {{email.from_name}}
                             &nbsp;&nbsp;<b>{{email.from_email}}</b></em>
                         <a class="show-{{email.show}}" href="" ng-click="showText(email)">body</a>
-                        <ul class="show-{{email.show}}">
-                            <li class="list-inline" ng-repeat="attachment in email.fileArray">
-                                <a href="/emails/file?file_name={{attachment.longFileName}}" target="_blank">{{attachment.longFileName}}</a>
-                            </li>
-                        </ul>
-                        <pre class="show-{{email.showBody}} pre-scrollable">
-                            {{email.body_text}}
-                        </pre>
+                        <div class="row">
+                            <ul class="show-{{email.show}} col-md-5">
+                                Files Attachments:
+                                <li class="list-inline"
+                                    ng-repeat="file in email.fileArray track by $index">
+                                    <a href="http://localhost:8080/files/?file_name={{file.id}}"
+                                       target="_blank">{{file.name}}</a>
+                                </li>
+                            </ul>
+                            <ul class="show-{{email.show}} col-md-5">
+                                Message Attachments:
+                                <li class="list-inline"
+                                    ng-repeat="message in email.emailArray track by $index">
+                                    <a href="">{{message.id}}&nbsp;&nbsp;{{message.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="content-{{email.message_id}}" class="show-{{email.showBody}} pre-scrollable">
+
+                        </div>
+                        <iframe class="show-{{email.showBody}} pre-scrollable" height="300px" width="1000px"
+                                ng-src="{{trustSrc(email)}}"></iframe>
+
                     </li>
                 </ul>
             </div>
