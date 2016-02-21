@@ -18,7 +18,7 @@ public class HttpConnector {
         boolean result = false;
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
-            HttpPost httppost = new HttpPost("http://localhost:8080/files/upload");
+            HttpPost httppost = new HttpPost("http://localhost:9000/files/upload");
             FileBody fileBody = new FileBody(file);
 
             // build http entity

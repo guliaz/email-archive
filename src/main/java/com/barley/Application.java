@@ -1,24 +1,20 @@
 package com.barley;
 
-import com.barley.fs.FileWatcher;
+import com.barley.ews.EmailExchangeService;
+import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Properties;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.barley")
 public class Application {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         System.out.println("$$$$$$$$$ Arguments received $$$$$$$$$$$$");
-        args = new String[]{"/Users/vikram.gulia/Documents/emailArchive"};
+
         for (String arg : args) {
             System.out.println(" Argument : " + arg);
         }
@@ -29,12 +25,23 @@ public class Application {
         ConfigurableApplicationContext cac = SpringApplication.run(Application.class, args);
         System.out.println("######## Application load finished ########");
         cac.start();
+        System.out.println("######## Application load finished ########");
+        System.out.println("######## Application load finished ########");
+        System.out.println("######## Application load finished ########");
     }
 
-   /* @Bean
-    public MultipartResolver multipartResolver() {
-        final CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-        commonsMultipartResolver.setMaxUploadSize(-1);
-        return commonsMultipartResolver;
-    }*/
+
+    private void readEmails() throws Exception {
+        Properties properties = new Properties();
+        properties.setProperty("exchange.url", "exchange.url");
+        properties.setProperty("exchange.email", "exchange.email");
+        properties.setProperty("exchange.password", "exchange.password");
+
+        EmailExchangeService service = new EmailExchangeService();
+
+        service.login(properties);
+        if (service.isLoggedIn()) {
+            service.readEmails(100, WellKnownFolderName.RecoverableItemsPurges, true);
+        }
+    }
 }

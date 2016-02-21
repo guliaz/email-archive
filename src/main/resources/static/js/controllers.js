@@ -48,7 +48,7 @@ AppControllers.controller('EmailListCtrl', ['$scope', 'Emails', 'Count', '$sce',
         };
 
         $scope.trustSrc = function (email) {
-            return $sce.trustAsResourceUrl('http://localhost:8080/emails/list/' + email.message_id + '/html');
+            return $sce.trustAsResourceUrl('/emails/list/' + email.message_id + '/html');
         };
 
         $scope.showText = function (email) {

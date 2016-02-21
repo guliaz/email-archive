@@ -5,6 +5,7 @@ import com.auxilii.msgparser.MsgParser;
 import com.auxilii.msgparser.RecipientEntry;
 import com.auxilii.msgparser.attachment.FileAttachment;
 import com.auxilii.msgparser.attachment.MsgAttachment;
+import com.barley.database.DatabaseConfig;
 import com.barley.model.Attachment;
 import com.barley.model.Email;
 import com.barley.model.Recipient;
@@ -40,6 +41,9 @@ public class EmailService {
 
     @Autowired
     private RecipientRepository recipientRepository;
+
+    @Autowired
+    DatabaseConfig config;
 
     private final MsgParser parser = new MsgParser();
 
