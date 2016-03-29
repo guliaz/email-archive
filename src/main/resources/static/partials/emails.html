@@ -15,7 +15,8 @@
                             <a href="" ng-click=page==0?"":getPage(0)>first</a></li>
                         <li class="disabled"><a href="">{{page+1}}</a></li>
                         <li class={{page==getNumber(totalEmails.count).length?"disabled":""}}>
-                            <a href="" ng-click=page==getNumber(totalEmails.count).length?"":getPage(getNumber(totalEmails.count).length)>last</a>
+                            <a href=""
+                               ng-click=page==getNumber(totalEmails.count).length?"":getPage(getNumber(totalEmails.count).length)>last</a>
                         </li>
                         <li class={{page==getNumber(totalEmails.count).length?"disabled":""}}>
                             <a href="" ng-click=page==getNumber(totalEmails.count).length?"":getPage(page+1)

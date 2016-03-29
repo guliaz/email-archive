@@ -3,20 +3,28 @@ package com.barley.ews;
 import microsoft.exchange.webservices.data.autodiscover.IAutodiscoverRedirectionUrl;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.PropertySet;
+import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
+import microsoft.exchange.webservices.data.core.enumeration.search.FolderTraversal;
 import microsoft.exchange.webservices.data.core.enumeration.service.DeleteMode;
 import microsoft.exchange.webservices.data.core.service.folder.Folder;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.core.service.item.Item;
+import microsoft.exchange.webservices.data.core.service.schema.FolderSchema;
 import microsoft.exchange.webservices.data.credential.ExchangeCredentials;
 import microsoft.exchange.webservices.data.credential.WebCredentials;
 import microsoft.exchange.webservices.data.property.complex.ItemId;
+import microsoft.exchange.webservices.data.search.FindFoldersResults;
 import microsoft.exchange.webservices.data.search.FindItemsResults;
+import microsoft.exchange.webservices.data.search.FolderView;
 import microsoft.exchange.webservices.data.search.ItemView;
+import microsoft.exchange.webservices.data.search.filter.SearchFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.*;
+
+import static microsoft.exchange.webservices.data.core.enumeration.property.BasePropertySet.IdOnly;
 
 @Service
 public class EmailExchangeService {
@@ -38,8 +46,8 @@ public class EmailExchangeService {
         Assert.notNull(exchangeEmail, "Exchange email is null. Please provide a valid email.");
         Assert.notNull(exchangePassword, "Exchange password is null. Please provide a valid password.");
         //Assert.notNull(exchangeUrl, "Exchange url is null. Please provide a valid url to connect.");
-        //exchangeService = new ExchangeService(ExchangeVersion.Exchange2007_SP1);
-        exchangeService = new ExchangeService();
+        exchangeService = new ExchangeService(ExchangeVersion.Exchange2007_SP1);
+        //exchangeService = new ExchangeService();
         ExchangeCredentials credentials = new WebCredentials(exchangeEmail, exchangePassword);
         exchangeService.setCredentials(credentials);
         //service.setUrl(URI.create(exchangeUrl));
@@ -52,15 +60,82 @@ public class EmailExchangeService {
         return isLoggedIn;
     }
 
+
+    public void findFolder() throws Exception {
+        // Create a view with a page size of 10.
+        FolderView view = new FolderView(10);
+
+// Identify the properties to return in the results set.
+        view.setPropertySet(new PropertySet(IdOnly));
+        view.getPropertySet().add(FolderSchema.DisplayName);
+
+// Return only folders that contain items.
+        SearchFilter searchFilter = new SearchFilter.IsGreaterThan(FolderSchema.TotalCount, 100);
+
+// Unlike FindItem searches, folder searches can be deep traversals.
+        view.setTraversal(FolderTraversal.Deep);
+
+// Send the request to search the mailbox and get the results.
+        FindFoldersResults findFolderResults = exchangeService.findFolders(WellKnownFolderName.Root, searchFilter, view);
+
+// Process each item.
+        for (Folder myFolder : findFolderResults.getFolders()) {
+            System.out.println(myFolder.getDisplayName());
+            if (myFolder.getDisplayName().equalsIgnoreCase("Other")) {
+                FindItemsResults<Item> itemresults;
+                int count = 0;
+                do {
+                    // empty the deleted folder
+                    //emptyDelete();
+                    // move items from other to deleted items
+                    itemresults = exchangeService.findItems(myFolder.getId(), new ItemView(100));
+                    System.out.println(" Is more Avail: " + itemresults.isMoreAvailable());
+                    for (Item item : itemresults.getItems()) {
+                        count++;
+                        System.out.println(item.getSubject());
+                        //Item itm = Item.bind(exchangeService, itemId, PropertySet.FirstClassProperties);
+                        EmailMessage emailMessage = EmailMessage.bind(exchangeService, item.getId());
+                        System.out.println("deleting : " + emailMessage.getSubject());
+                        try {
+                            emailMessage.delete(DeleteMode.HardDelete);
+                            //item.delete(DeleteMode.HardDelete);
+                            //item.move(WellKnownFolderName.DeletedItems);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                while (itemresults.isMoreAvailable());
+                System.out.println("Item deleted: " + count);
+                //emptyDelete();
+            }
+        }
+    }
+
+    public void emptyDelete() throws Exception {
+        Folder folder = Folder.bind(exchangeService, WellKnownFolderName.DeletedItems);
+    }
+
+
     public List<Map<String, String>> readEmails(int count, WellKnownFolderName name, boolean doDelete) {
         System.out.println("\n\n\n############### READING EMAILS for : " + name.name() + " #################");
         List<Map<String, String>> msgDataList = new ArrayList<>();
         try {
             Folder folder = Folder.bind(exchangeService, name);
-            folder.delete(DeleteMode.HardDelete);
-            FindItemsResults<Item> results = exchangeService.findItems(folder.getId(), new ItemView(count));
+            FindFoldersResults results = folder.findFolders(new SearchFilter.Exists(), new FolderView(10));
+
+
+            FindFoldersResults result2 = folder.findFolders(new SearchFilter() {
+                @Override
+                protected String getXmlElementName() {
+                    return "Other";
+                }
+            }, new FolderView(10));
+
+            //folder.delete(DeleteMode.HardDelete);
+            FindItemsResults<Item> itemresults = exchangeService.findItems(folder.getId(), new ItemView(count));
             int i = 1;
-            for (Item item : results) {
+            for (Item item : itemresults) {
                 Map<String, String> messageData;
                 messageData = readEmailItem(item.getId(), doDelete);
                 if (!doDelete) {
@@ -87,10 +162,8 @@ public class EmailExchangeService {
             EmailMessage emailMessage = EmailMessage.bind(exchangeService, itm.getId());
             if (doDelete) {
                 System.out.println("deleting item: " + itm.getSubject());
-                //itm.delete(DeleteMode.SoftDelete);
-                emailMessage.delete(DeleteMode.SoftDelete);
-                //itm.delete(DeleteMode.SoftDelete);
-                //emailMessage.delete(DeleteMode.HardDelete);
+                itm.delete(DeleteMode.HardDelete);
+                emailMessage.delete(DeleteMode.HardDelete);
             } else {
                 messageData.put("emailItemId", emailMessage.getId().toString());
                 messageData.put("subject", emailMessage.getSubject());
