@@ -31,7 +31,7 @@ public class Application {
     }
 
 
-    private void readEmails() throws Exception {
+    /*private void readEmails() throws Exception {
         Properties properties = new Properties();
         properties.setProperty("exchange.url", "exchange.url");
         properties.setProperty("exchange.email", "exchange.email");
@@ -43,5 +43,5 @@ public class Application {
         if (service.isLoggedIn()) {
             service.readEmails(100, WellKnownFolderName.RecoverableItemsPurges, true);
         }
-    }
+    }*/
 }

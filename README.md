@@ -2,7 +2,6 @@
 
 ### Techs
 1. Java
-2. Scala
-3. Spring
-4. MsgParser
-5. MySQL
+2. Spring
+3. MsgParser
+4. MySQL

@@ -1,0 +1,29 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: spring-jersey
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    #driverClassName: org.sqlite.JDBC
+    url: jdbc:mysql://localhost:3306/email_archive
+    #url: "jdbc:sqlite:/Users/vikram.gulia/Documents/sdks/sqlite/mydatabase.db"
+    #url: ${JDBC_DATABASE_URL}
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: false
+#spring.jpa.hibernate.ddl-auto=create-drop
+
+# credentials
+app:
+  user: user
+  password: pass
+
+multipart:
+  enabled: true
+  maxFileSize: 10Mb
+  maxRequestSize: 10Mb
+#multipart.max-request-size=10Mb
+#multipart.max-file-size=10Mb

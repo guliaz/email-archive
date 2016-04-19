@@ -13,6 +13,7 @@ import com.barley.repository.AttachmentRepository;
 import com.barley.repository.EmailRepository;
 import com.barley.repository.FileRepository;
 import com.barley.repository.RecipientRepository;
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +48,12 @@ public class EmailService {
 
     private final MsgParser parser = new MsgParser();
 
+    /**
+     * Simple method to insert any email file in database
+     *
+     * @param file
+     * @return
+     */
     public boolean insertEmail(File file) {
         try {
             FileInputStream fis = new FileInputStream(file);
@@ -58,6 +65,13 @@ public class EmailService {
         }
     }
 
+    /**
+     * Method to support inserting a file of type MultipartFile
+     *
+     * @param file
+     * @return
+     * @see MultipartFile
+     */
     public boolean insertEmail(MultipartFile file) {
         if (file == null)
             return false;
@@ -73,7 +87,7 @@ public class EmailService {
         } else {
             try {
                 Message msg = parser.parseMsg(file.getInputStream());
-                System.out.println("Email inserted: " + loadMessage(msg, null));
+                System.out.println("Email inserted: " + loadMessage(msg));
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -82,15 +96,20 @@ public class EmailService {
         }
     }
 
+    /**
+     * Method to support inserting file of type MimeMessage
+     *
+     * @param mimeMessage
+     * @return
+     * @see MimeMessage
+     */
     public boolean insertEmail(MimeMessage mimeMessage) {
         if (mimeMessage == null) {
             return false;
         }
         try {
-            com.independentsoft.msg.Message message = convertToMsg(mimeMessage);
-            Message msg = parser.parseMsg(message.getInputStream());
-            loadMessage(msg, message.getMessageDeliveryTime());
-            //System.out.println("Processed parent email: " + processEmail(mimeMessage));
+            EmlMessage message = convertToMsg(mimeMessage);
+            loadMessage(message);
             return true;
         } catch (IOException | MessagingException e) {
             e.printStackTrace();
@@ -99,212 +118,224 @@ public class EmailService {
     }
 
     /**
-     * Convert mime to msg
+     * Method to inserting our simple POJO - EmlMessage to support file types from simple email client
      *
-     * @param mimeMessage MimeMessage to be converted to Message
-     * @return com.independentsoft.msg.Message message returned
+     * @param message
+     * @return
+     */
+    private Long loadMessage(EmlMessage message) {
+        Long returnVal = null;
+        try {
+            final Email returnedEmail = emailRepository.save(message.getEmail());
+            returnVal = returnedEmail.getMessage_id();
+            message.getRecipients().forEach(r -> r.setMessage_id(returnedEmail.getMessage_id()));
+            recipientRepository.save(message.getRecipients());
+            message.getFiles().forEach(f -> {
+                final com.barley.model.File returnedFile = fileRepository.save(f);
+                Attachment attach = new Attachment();
+                attach.setAttachment_type("FILE");
+                attach.setMessageId(returnedEmail.getMessage_id());
+                attach.setFile_id(returnedFile.getFile_id());
+                attachmentRepository.save(attach);
+            });
+            message.getEmlMessages().forEach(eml -> {
+                Attachment attach = new Attachment();
+                attach.setAttachment_type("MSG");
+                attach.setMessageId(returnedEmail.getMessage_id());
+                attach.setFile_id(loadMessage(eml));
+                attachmentRepository.save(attach);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return returnVal;
+    }
+
+
+    /**
+     * @param internetAddress
+     * @return
+     */
+    private String getDisplayname(InternetAddress internetAddress) {
+        if (internetAddress.getPersonal() != null) {
+            return internetAddress.getPersonal();
+        } else
+            return internetAddress.getAddress();
+    }
+
+    /**
+     * @param internetAddresses
+     * @param recipientList
+     * @param email
+     * @return
+     */
+    private String addRecipients(InternetAddress[] internetAddresses, List<Recipient> recipientList, Email email) {
+
+        if (internetAddresses == null || internetAddresses.length <= 0)
+            return null;
+        boolean emailSet = false;
+        String displayTo = "";
+        for (InternetAddress internetAddress : internetAddresses) {
+            Recipient recipient = new Recipient();
+            recipient.setRecipient_email(trim(internetAddress.getAddress(), 200));
+            String displayName = getDisplayname(internetAddress);
+            recipient.setRecipient_name(trim(displayName, 200));
+            if (email != null && !emailSet) {
+                email.setTo_email(trim(internetAddress.getAddress(), 200));
+                email.setTo_name(trim(displayName, 200));
+                emailSet = true;
+            }
+            displayTo += displayName;
+            displayTo += "; ";
+            recipient.setDate_created(new Date());
+            recipientList.add(recipient);
+        }
+
+        return displayTo;
+    }
+
+    /**
+     * @param email
+     * @param html
+     */
+    public void setEmailHtml(Email email, String html) {
+        if (email != null && email.getBody_html() == null && html != null) {
+            email.setBody_html(html);
+        }
+    }
+
+    /**
+     * @param email
+     * @param text
+     */
+    public void setEmailText(Email email, String text) {
+        if (email != null && email.getBody_text() == null && text != null) {
+            email.setBody_text(text);
+        }
+    }
+
+
+    /**
+     * @param mimeMessage
+     * @return
      * @throws MessagingException
      * @throws IOException
      */
-    private com.independentsoft.msg.Message convertToMsg(MimeMessage mimeMessage) throws MessagingException, IOException {
-        List<BodyPart> allBodyParts = new ArrayList<>();
+    private EmlMessage convertToMsg(MimeMessage mimeMessage) throws MessagingException, IOException {
 
-        com.independentsoft.msg.Message msgMessage = new com.independentsoft.msg.Message();
+        EmlMessage emlMessage = new EmlMessage();
+        Email email = new Email();
 
-        InternetAddress[] toRecipients = (InternetAddress[]) mimeMessage.getRecipients(javax.mail.Message.RecipientType.TO);
-        InternetAddress[] ccRecipients = (InternetAddress[]) mimeMessage.getRecipients(javax.mail.Message.RecipientType.CC);
-        InternetAddress[] bccRecipients = (InternetAddress[]) mimeMessage.getRecipients(MimeMessage.RecipientType.BCC);
+        // Subject and outlook id
+        email.setSubject(trim(mimeMessage.getSubject(), 200));
+        email.setOutlook_id(trim(mimeMessage.getMessageID(), 200));
 
-        if (toRecipients != null) {
-            String displayTo = "";
+        // TO, CC, BCC
+        email.setDisplay_to(trim(addRecipients((InternetAddress[]) mimeMessage.getRecipients(javax.mail.Message.RecipientType.TO), emlMessage.getRecipients(), email), 200));
+        email.setDisplay_cc(trim(addRecipients((InternetAddress[]) mimeMessage.getRecipients(javax.mail.Message.RecipientType.CC), emlMessage.getRecipients(), null), 200));
+        email.setDisplay_bcc(trim(addRecipients((InternetAddress[]) mimeMessage.getRecipients(javax.mail.Message.RecipientType.BCC), emlMessage.getRecipients(), null), 200));
 
-            for (int i = 0; i < toRecipients.length; i++) {
-                com.independentsoft.msg.Recipient recipient = new com.independentsoft.msg.Recipient();
-                recipient.setAddressType("SMTP");
-                recipient.setRecipientType(com.independentsoft.msg.RecipientType.TO);
-                recipient.setEmailAddress(toRecipients[i].getAddress());
+        // Dates
+        Date date = mimeMessage.getSentDate();
+        email.setMessage_creation_date(date);
+        email.setMessage_date(date);
+        email.setDate_created(new Date());
 
-                if (toRecipients[i].getPersonal() != null) {
-                    recipient.setDisplayName(toRecipients[i].getPersonal());
-                    displayTo += toRecipients[i].getPersonal();
-                } else {
-                    recipient.setDisplayName(toRecipients[i].getAddress());
-                    displayTo += toRecipients[i].getAddress();
-                }
-
-                msgMessage.getRecipients().add(recipient);
-
-                if (i < toRecipients.length - 1) {
-                    displayTo += "; ";
-                }
-            }
-
-            msgMessage.setDisplayTo(displayTo);
-        }
-
-        if (ccRecipients != null) {
-            String displayCc = "";
-
-            for (int i = 0; i < ccRecipients.length; i++) {
-                com.independentsoft.msg.Recipient recipient = new com.independentsoft.msg.Recipient();
-                recipient.setAddressType("SMTP");
-                recipient.setRecipientType(com.independentsoft.msg.RecipientType.CC);
-                recipient.setEmailAddress(ccRecipients[i].getAddress());
-
-                if (ccRecipients[i].getPersonal() != null) {
-                    recipient.setDisplayName(ccRecipients[i].getPersonal());
-                    displayCc += ccRecipients[i].getPersonal();
-                } else {
-                    recipient.setDisplayName(ccRecipients[i].getAddress());
-                    displayCc += ccRecipients[i].getAddress();
-                }
-
-                msgMessage.getRecipients().add(recipient);
-
-                if (i < ccRecipients.length - 1) {
-                    displayCc += "; ";
-                }
-            }
-
-            msgMessage.setDisplayCc(displayCc);
-        }
-
-        if (bccRecipients != null) {
-            String displayBcc = "";
-
-            for (int i = 0; i < bccRecipients.length; i++) {
-                com.independentsoft.msg.Recipient recipient = new com.independentsoft.msg.Recipient();
-                recipient.setAddressType("SMTP");
-                recipient.setRecipientType(com.independentsoft.msg.RecipientType.BCC);
-                recipient.setEmailAddress(bccRecipients[i].getAddress());
-
-                if (bccRecipients[i].getPersonal() != null) {
-                    recipient.setDisplayName(bccRecipients[i].getPersonal());
-                    displayBcc += bccRecipients[i].getPersonal();
-                } else {
-                    recipient.setDisplayName(bccRecipients[i].getAddress());
-                    displayBcc += bccRecipients[i].getAddress();
-                }
-
-                msgMessage.getRecipients().add(recipient);
-
-                if (i < bccRecipients.length - 1) {
-                    displayBcc += "; ";
-                }
-            }
-
-            msgMessage.setDisplayBcc(displayBcc);
-        }
-
-        System.out.println(mimeMessage.getSentDate() + " || " + mimeMessage.getReceivedDate());
-
-        msgMessage.setCreationTime(mimeMessage.getSentDate());
-        msgMessage.setMessageDeliveryTime(mimeMessage.getSentDate());
-        msgMessage.setClientSubmitTime(mimeMessage.getSentDate());
-        msgMessage.setInternetMessageId(mimeMessage.getMessageID());
-        msgMessage.setSubject(mimeMessage.getSubject());
-
+        // From values
         if (mimeMessage.getFrom() != null && mimeMessage.getFrom().length > 0) {
             InternetAddress from = (InternetAddress) mimeMessage.getFrom()[0];
 
             if (from.getPersonal() != null) {
-                msgMessage.setSenderName(from.getPersonal());
+                email.setFrom_name(trim(from.getPersonal(), 200));
             } else {
-                msgMessage.setSenderName(from.getAddress());
+                email.setFrom_name(trim(from.getAddress(), 200));
             }
 
-            msgMessage.setSenderEmailAddress(from.getAddress());
-            msgMessage.setSenderAddressType("SMTP");
+            email.setFrom_email(trim(from.getAddress(), 200));
         }
 
         if (mimeMessage.getContent() instanceof Multipart) {
+            List<BodyPart> allBodyParts = new ArrayList<>();
             getAllBodyParts((Multipart) mimeMessage.getContent(), allBodyParts);
 
             for (int i = 0; i < allBodyParts.size(); i++) {
                 if (allBodyParts.get(i).isMimeType("text/plain") && allBodyParts.get(i).getDisposition() != null) {
                     String content = (String) allBodyParts.get(i).getContent();
                     byte[] buffer = content.getBytes("UTF-8"); //here you can use char set from allBodyParts.get(i)
-
-                    com.independentsoft.msg.Attachment attachment = new com.independentsoft.msg.Attachment(allBodyParts.get(i).getFileName(), buffer);
-
-                    attachment.setRenderingPosition(0xFFFFFFFF);
-                    msgMessage.getAttachments().add(attachment);
+                    //System.out.println(new String(buffer));
+                    com.barley.model.File file = new com.barley.model.File();
+                    file.setData(buffer);
+                    file.setDate_created(new Date());
+                    file.setExtension(".txt");
+                    file.setFileName(allBodyParts.get(i).getFileName());
+                    file.setLongFileName(allBodyParts.get(i).getFileName());
+                    file.setMime_tag(allBodyParts.get(i).getContentType());
+                    emlMessage.getFiles().add(file);
                 } else if (allBodyParts.get(i).isMimeType("text/plain")) {
                     if (allBodyParts.get(i).getContent() instanceof MimeBodyPart) {
                         MimeBodyPart mimeBodyPart = (MimeBodyPart) allBodyParts.get(i).getContent();
-                        msgMessage.setBody(mimeBodyPart.getDescription());
+                        setEmailText(email, mimeBodyPart.getDescription());
                     } else if (allBodyParts.get(i).getContent() instanceof String) {
-                        msgMessage.setBody((String) allBodyParts.get(i).getContent());
+                        setEmailText(email, (String) allBodyParts.get(i).getContent());
                     }
                 } else if (allBodyParts.get(i).isMimeType("text/html")) {
+                    String htmlText = null;
                     if (allBodyParts.get(i).getContent() instanceof MimeBodyPart) {
                         MimeBodyPart mimeBodyPart = (MimeBodyPart) allBodyParts.get(i).getContent();
+                        htmlText = mimeBodyPart.getDescription();
 
-                        String htmlText = mimeBodyPart.getDescription();
-
-                        if (msgMessage.getBodyHtmlText() == null) {
-                            msgMessage.setBodyHtmlText(htmlText);
-                        }
                     } else if (allBodyParts.get(i).getContent() instanceof String) {
-                        String htmlText = (String) allBodyParts.get(i).getContent();
-
-                        if (msgMessage.getBodyHtmlText() == null) {
-                            msgMessage.setBodyHtmlText(htmlText);
-                        }
+                        htmlText = (String) allBodyParts.get(i).getContent();
                     }
+                    setEmailHtml(email, htmlText);
                 } else if (allBodyParts.get(i).getContent() instanceof InputStream) {
                     InputStream is = (InputStream) allBodyParts.get(i).getContent();
-                    com.independentsoft.msg.Attachment attachment = new com.independentsoft.msg.Attachment(allBodyParts.get(i).getFileName(), is);
-
-                    if (allBodyParts.get(i).getHeader("Content-Location") != null && allBodyParts.get(i).getHeader("Content-Location").length > 0) {
-                        String contentId = (String) allBodyParts.get(i).getHeader("Content-Location")[0];
-                        attachment.setContentId(contentId);
-                        attachment.setContentLocation(contentId);
-                    } else if (allBodyParts.get(i).getHeader("Content-ID") != null && allBodyParts.get(i).getHeader("Content-ID").length > 0) {
-                        String contentId = (String) allBodyParts.get(i).getHeader("Content-ID")[0];
-                        attachment.setContentId(contentId);
-                        attachment.setContentLocation(contentId);
+                    com.barley.model.File file = new com.barley.model.File();
+                    file.setData(IOUtils.toByteArray(is));
+                    file.setDate_created(new Date());
+                    String extension = allBodyParts.get(i).getContentType();
+                    System.out.println("Extension: " + extension);
+                    String[] extStrings = extension.split(";");
+                    for (String extString : extStrings) {
+                        System.out.println(extString);
                     }
-
-                    attachment.setRenderingPosition(0xFFFFFFFF);
-                    msgMessage.getAttachments().add(attachment);
+                    file.setExtension(extStrings[0]);
+                    file.setFileName(allBodyParts.get(i).getFileName());
+                    file.setLongFileName(allBodyParts.get(i).getFileName());
+                    file.setMime_tag(".eml");
+                    emlMessage.getFiles().add(file);
                 } else if (allBodyParts.get(i).getContent() instanceof MimeMessage) {
-                    com.independentsoft.msg.Message embeddedMessage = convertToMsg((MimeMessage) allBodyParts.get(i).getContent());
-
-                    com.independentsoft.msg.Attachment attachment = new com.independentsoft.msg.Attachment();
-                    attachment.setDisplayName(embeddedMessage.getSubject() + ".msg");
-                    attachment.setFileName(embeddedMessage.getSubject() + ".msg");
-                    attachment.setData(embeddedMessage.toByteArray());
-
-                    attachment.setRenderingPosition(0xFFFFFFFF);
-                    msgMessage.getAttachments().add(attachment);
+                    EmlMessage emlMessage1 = convertToMsg((MimeMessage) allBodyParts.get(i).getContent());
+                    emlMessage.getEmlMessages().add(emlMessage1);
                 }
             }
         } else if (mimeMessage.getContent() instanceof String) {
             if (mimeMessage.isMimeType("text/html")) {
                 String htmlText = (String) mimeMessage.getContent();
-
-                if (msgMessage.getBodyHtmlText() == null) {
-                    msgMessage.setBodyHtmlText(htmlText);
-                }
+                setEmailHtml(email, htmlText);
             } else {
                 String plainText = (String) mimeMessage.getContent();
-
-                if (msgMessage.getBody() == null) {
-                    msgMessage.setBody(plainText);
-                }
+                setEmailText(email, plainText);
             }
         }
 
 
-        if (msgMessage.getBody() == null) {
-            msgMessage.setBody(mimeMessage.getDescription());
+        if (email.getBody_text() == null) {
+            email.setBody_text(mimeMessage.getDescription());
         }
 
-        return msgMessage;
+        emlMessage.setEmail(email);
+
+        return emlMessage;
     }
 
-    private static void getAllBodyParts(Multipart multipart, List<BodyPart> allBodyParts) throws MessagingException, IOException {
+    /**
+     * @param multipart
+     * @param allBodyParts
+     * @throws MessagingException
+     * @throws IOException
+     */
+    public static void getAllBodyParts(Multipart multipart, List<BodyPart> allBodyParts) throws MessagingException, IOException {
         for (int i = 0; i < multipart.getCount(); i++) {
             BodyPart bodyPart = multipart.getBodyPart(i);
             allBodyParts.add(bodyPart);
@@ -316,138 +347,10 @@ public class EmailService {
     }
 
     /**
+     * @param msg
      * @return
      */
-    /*private Long processEmail(MimeMessage mimeMessage) {
-        try {
-            System.out.println("subject - " + mimeMessage.getSubject());
-            System.out.println("messageId - " + mimeMessage.getMessageID());
-            System.out.println("content - " + mimeMessage.getContent().toString());
-            System.out.println("content md5 - " + mimeMessage.getContentMD5());
-            System.out.println("content type - " + mimeMessage.getContentType());
-            System.out.println("desc - " + mimeMessage.getDescription());
-            System.out.println("disposotion - " + mimeMessage.getDisposition());
-            System.out.println("encoding - " + mimeMessage.getEncoding());
-            System.out.println("filename - " + mimeMessage.getFileName());
-            System.out.println("all header lines - " + mimeMessage.getAllHeaderLines());
-            System.out.println("headers - " + mimeMessage.getAllHeaders());
-            System.out.println("recipients - " + getAddressString(mimeMessage.getAllRecipients()));
-            System.out.println("content lang - " + getString(mimeMessage.getContentLanguage()));
-            System.out.println("flags - " + getFlag(mimeMessage.getFlags()));
-            System.out.println("from - " + getAddressString(mimeMessage.getFrom()));
-            System.out.println("receive date - " + mimeMessage.getReceivedDate());
-            System.out.println("reply to - " + getAddressString(mimeMessage.getReplyTo()));
-            System.out.println("sender - " + mimeMessage.getSender());
-            System.out.println("sent date - " + mimeMessage.getSentDate());
-            System.out.println("size - " + mimeMessage.getSize());
-            System.out.println("message number - " + mimeMessage.getMessageNumber());
-            Email email = new Email();
-            email.setOutlook_id(mimeMessage.getMessageID());
-            email.setSubject(trim(mimeMessage.getSubject() == null ? "No Subject" : mimeMessage.getSubject(), 200));
-            //email.setBody_html();
-            //email.setBody_text();
-            email.setFrom_email(trim(getAddressString(mimeMessage.getFrom()), 200));
-            email.setFrom_name(trim(mimeMessage.getSender() == null ? "" : mimeMessage.getSender().toString(), 200));
-            email.setMessage_creation_date(mimeMessage.getSentDate() == null ? new Date() : mimeMessage.getSentDate());
-            email.setMessage_date(mimeMessage.getReceivedDate() == null ? new Date() : mimeMessage.getReceivedDate());
-            email.setDate_created(new Date());
-            String toName = trim(getAddressString(mimeMessage.getAllRecipients()), 200);
-            email.setTo_email(toName);
-            email.setTo_name(toName);
-            email.setDisplay_to(toName);
-            email.setDisplay_cc("");
-            email.setDisplay_bcc("");
-            email = emailRepository.save(email);
-            System.out.println(email.getMessage_id());
-            insertRecipients(mimeMessage.getAllRecipients(), email.getMessage_id());
-            MimeMultipart mimeMultipart = (MimeMultipart) mimeMessage.getContent();
-            if (mimeMultipart != null) {
-                email = exploreEmail(mimeMultipart, email);
-            }
-            return email.getMessage_id();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
-
-    /*private void insertRecipients(Address[] addresses, long id) {
-        if (addresses != null) {
-            List<Recipient> recipients = new ArrayList<>();
-            for (Address address : addresses) {
-                Recipient recipient = new Recipient();
-                recipient.setMessage_id(id);
-                recipient.setRecipient_email(trim(address.toString(), 200));
-                recipient.setRecipient_name(trim(address.toString(), 200));
-                recipient.setDate_created(new Date());
-                recipients.add(recipient);
-            }
-            recipientRepository.save(recipients);
-        }
-    }*/
-
-    /*private Email exploreEmail(MimeMultipart message, Email email) {
-        if (message == null || email == null) {
-            return email;
-        }
-        try {
-            for (int i = 0; i < message.getCount(); i++) {
-                BodyPart bodyPart = message.getBodyPart(i);
-                String contentType = bodyPart.getContentType();
-                if (contentType != null && contentType.contains("multipart")) {
-                    MimeMultipart multipart = (MimeMultipart) bodyPart.getContent();
-                    exploreEmail(multipart, email);
-                } else if (contentType != null && contentType.contains("message")) {
-                    MimeMessage mimeMessage = (MimeMessage) bodyPart.getContent();
-                    long attachmentId = processEmail(mimeMessage);
-                    // Attachment
-                    Attachment attachment = new Attachment();
-                    attachment.setAttachment_type("FILE");
-                    attachment.setDate_created(new Date());
-                    attachment.setFile_id(attachmentId);
-                    attachment.setMessageId(email.getMessage_id());
-                    attachmentRepository.save(attachment);
-                } else if (contentType.contains("text/plain")) {
-                    email.setBody_text(bodyPart.getContent().toString());
-                    email = emailRepository.save(email);
-                } else if (contentType.contains("text/html")) {
-                    email.setBody_html(bodyPart.getContent().toString());
-                    email = emailRepository.save(email);
-                } else if (contentType.contains("octet")) {
-                    // File
-                    com.barley.model.File file = new com.barley.model.File();
-                    DataHandler handler = bodyPart.getDataHandler();
-                    file.setFileName(trim(handler.getName(), 100));
-                    File file1 = new File(handler.getName());
-                    FileOutputStream fos = new FileOutputStream(file1);
-                    handler.writeTo(fos);
-                    fos.flush();
-                    fos.close();
-                    FileInputStream fis = new FileInputStream(file1);
-                    file.setData(IOUtils.toByteArray(fis));
-                    fis.close();
-                    file1.deleteOnExit();
-                    file.setDate_created(new Date());
-                    file.setExtension(handler.getContentType().split(";")[0]);
-                    file.setLongFileName(trim(handler.getName(), 200));
-                    file.setMime_tag(".eml");
-                    file = fileRepository.save(file);
-                    // Attachment
-                    Attachment attachment = new Attachment();
-                    attachment.setAttachment_type("FILE");
-                    attachment.setDate_created(new Date());
-                    attachment.setFile_id(file.getFile_id());
-                    attachment.setMessageId(email.getMessage_id());
-                    attachmentRepository.save(attachment);
-                }
-            }
-            return email;
-        } catch (IOException | MessagingException e) {
-            e.printStackTrace();
-            return email;
-        }
-    }*/
-    private Long loadMessage(Message msg, Date date) {
+    private Long loadMessage(Message msg) {
         final Email email = new Email();
         Long returnVal = null;
         try {
@@ -457,8 +360,8 @@ public class EmailService {
             email.setBody_html(msg.getConvertedBodyHTML() == null ? msg.getBodyHTML() : msg.getConvertedBodyHTML());
             email.setFrom_email(trim(msg.getFromEmail(), 200));
             email.setFrom_name(trim(msg.getFromName() == null ? msg.getFromEmail() : msg.getFromName(), 200));
-            email.setMessage_creation_date(msg.getCreationDate() == null ? date : msg.getCreationDate());
-            email.setMessage_date(msg.getDate() == null ? date : msg.getDate());
+            email.setMessage_creation_date(msg.getCreationDate());
+            email.setMessage_date(msg.getDate());
             email.setTo_email(trim(msg.getToEmail(), 200));
             email.setTo_name(trim(msg.getToName(), 200));
             email.setDisplay_to(trim(msg.getDisplayTo(), 200));
@@ -481,7 +384,7 @@ public class EmailService {
             List<com.auxilii.msgparser.attachment.Attachment> attachmentList = msg.getAttachments();
             attachmentList.forEach(attachment -> {
                 try {
-                    insertEmail(attachment, returnedEmail.getMessage_id(), date);
+                    insertEmail(attachment, returnedEmail.getMessage_id());
                 } catch (ClassCastException cce) {
                     System.out.println("Cant convert attachment to msg - will try parsing again" + email.getSubject() + ", e: " + cce.getLocalizedMessage());
                     try {
@@ -491,7 +394,7 @@ public class EmailService {
                                 Message message = parser.parseMsg(new ByteArrayInputStream(fileAttachment.getData()));
                                 MsgAttachment msgAttachment = new MsgAttachment();
                                 msgAttachment.setMessage(message);
-                                insertEmail(msgAttachment, returnedEmail.getMessage_id(), date);
+                                insertEmail(msgAttachment, returnedEmail.getMessage_id());
                             } catch (IOException | UnsupportedOperationException e) {
                                 System.out.println("Exception while parsing file att to msg " + e.getLocalizedMessage());
                                 insertFile(attachment, returnedEmail.getMessage_id());
@@ -511,16 +414,24 @@ public class EmailService {
         return returnVal;
     }
 
-    private void insertEmail(com.auxilii.msgparser.attachment.Attachment attachment, long messageId, Date date) {
+    /**
+     * @param attachment
+     * @param messageId
+     */
+    private void insertEmail(com.auxilii.msgparser.attachment.Attachment attachment, long messageId) {
         Attachment attach = new Attachment();
         MsgAttachment msgAttachment = (MsgAttachment) attachment;
         attach.setAttachment_type("MSG");
         attach.setMessageId(messageId);
-        attach.setFile_id(loadMessage(msgAttachment.getMessage(), date));
+        attach.setFile_id(loadMessage(msgAttachment.getMessage()));
         attach.setDate_created(new Date());
         attachmentRepository.save(attach);
     }
 
+    /**
+     * @param attachment
+     * @param messageId
+     */
     private void insertFile(com.auxilii.msgparser.attachment.Attachment attachment, long messageId) {
         FileAttachment fileAttachment = (FileAttachment) attachment;
         Attachment attach = new Attachment();
@@ -537,6 +448,10 @@ public class EmailService {
         attachmentRepository.save(attach);
     }
 
+    /**
+     * @param fileName
+     * @return
+     */
     private String getExtension(String fileName) {
         if (fileName != null) {
             String[] strings = fileName.split("\\.");
@@ -549,6 +464,11 @@ public class EmailService {
         return "";
     }
 
+    /**
+     * @param value
+     * @param length
+     * @return
+     */
     private static String trim(String value, int length) {
         if (value != null) {
             if (value.length() > length) {
@@ -560,13 +480,20 @@ public class EmailService {
             return "";
     }
 
-    private static Session getMailSession() {
+    /**
+     * @return
+     */
+    public static Session getMailSession() {
         Properties props = System.getProperties();
         props.put("mail.host", "smtp.dummydomain.com");
         props.put("mail.transport.protocol", "smtp");
         return Session.getDefaultInstance(props, null);
     }
 
+    /**
+     * @param addresses
+     * @return
+     */
     private String getAddressString(Address[] addresses) {
         if (addresses == null) {
             return "";
@@ -580,6 +507,10 @@ public class EmailService {
         return stringBuilder.toString();
     }
 
+    /**
+     * @param flags
+     * @return
+     */
     private String getFlag(Flags flags) {
         String[] flgs = flags.getUserFlags();
         StringBuilder stringBuilder = new StringBuilder();
@@ -594,6 +525,10 @@ public class EmailService {
         return stringBuilder.toString();
     }
 
+    /**
+     * @param strings
+     * @return
+     */
     private String getString(String[] strings) {
         StringBuilder stringBuilder = new StringBuilder();
         for (String str : strings) {

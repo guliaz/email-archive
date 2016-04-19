@@ -1,3 +1,5 @@
+/.gradle
+/build
 email-archive.iml
 # Created by .ignore support plugin (hsz.mobi)
 .DS_Store
