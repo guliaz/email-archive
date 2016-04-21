@@ -3,6 +3,10 @@ var stompClient = null;
 var webSocket = new WebSocket('ws://localhost:9000/myHandler');
 webSocket.onmessage = handleSocket
 
+var source = new EventSource("/emit");
+source.onmessage = handleSocket
+
+
 function handleSocket(event) {
     onMessage(event.data);
 }

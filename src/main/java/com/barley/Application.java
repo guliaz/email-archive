@@ -1,13 +1,9 @@
 package com.barley;
 
-import com.barley.ews.EmailExchangeService;
-import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-
-import java.util.Properties;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.barley")
@@ -43,5 +39,12 @@ public class Application {
         if (service.isLoggedIn()) {
             service.readEmails(100, WellKnownFolderName.RecoverableItemsPurges, true);
         }
+
+
+
+    //get hold of actor system
+    ActorSystem system = cac.getBean(ActorSystem.class);
+    ActorRef helloWorld = system.actorOf(SpringExtension.SpringExtProvider.get(system).props("HelloWorld"), "helloWorld");
+    helloWorld.tell(Greeter.Msg.START, helloWorld);
     }*/
 }
